@@ -145,18 +145,20 @@ namespace ASTImpl {
 
             double Evaluate(SheetInterface* sheet) const override {
                 double result;
+                double lhs_value = lhs_->Evaluate(sheet);
+                double rhs_value = rhs_->Evaluate(sheet);
                 switch (type_) {
                 case Add:
-                    result = lhs_->Evaluate(sheet) + rhs_->Evaluate(sheet);
+                    result = lhs_value + rhs_value;
                     break;
                 case Subtract:
-                    result = lhs_->Evaluate(sheet) - rhs_->Evaluate(sheet);
+                    result = lhs_value - rhs_value;
                     break;
                 case Multiply:
-                    result = lhs_->Evaluate(sheet) * rhs_->Evaluate(sheet);
+                    result = lhs_value * rhs_value;
                     break;
                 case Divide:
-                    result = lhs_->Evaluate(sheet) / rhs_->Evaluate(sheet);
+                    result = lhs_value / rhs_value;
                     break;
                 }
                 if (!std::isfinite(result)) {
