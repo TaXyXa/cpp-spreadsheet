@@ -12,7 +12,7 @@ public:
     Cell(SheetInterface& sheet);
     ~Cell();
 
-    void Set(std::string text);
+    void Set(const std::string& text);
     void Clear();
 
     Value GetValue() const override;
@@ -35,7 +35,7 @@ private:
 
     class Impl {
     public:
-        virtual void Set(std::string text) = 0;
+        virtual void Set(const std::string& text) = 0;
         virtual Value GetValue() const = 0;
         virtual std::string GetText() const = 0;
         virtual std::vector<Position> GetReferencedCells() const;
@@ -43,14 +43,14 @@ private:
 
     class EmptyImpl : public Impl {
     public:
-        void Set(std::string text) override;
+        void Set(const std::string& text) override;
         Value GetValue() const override;
         std::string GetText() const override;
     };
 
     class TextImpl : public Impl {
     public:
-        void Set(std::string text) override;
+        void Set(const std::string& text) override;
         Value GetValue() const override;
         std::string GetText() const override;
     private:   
@@ -61,7 +61,7 @@ private:
     public:
         FormulaImpl(Cell* parent_cell, SheetInterface* sheet);
         
-        void Set(std::string text) override;
+        void Set(const std::string& text) override;
         Value GetValue() const override;
         std::string GetText() const override;
         std::vector<Position> GetReferencedCells() const override;

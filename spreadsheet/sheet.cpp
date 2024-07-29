@@ -17,10 +17,14 @@ void Sheet::SetCell(Position pos, std::string text) {
     ResizePrintable(pos);
 }
 
-const CellInterface* Sheet::GetCell(Position pos) const {
+void CheckValidPos(Position pos) {
     if (!pos.IsValid()) {
         throw InvalidPositionException("#POS!");
-    } 
+    }
+}
+
+const CellInterface* Sheet::GetCell(Position pos) const {
+    CheckValidPos(pos);
     if (!IsCellInRange(pos) || cells_ptr_table_[pos.row][pos.col] == nullptr) {
         return nullptr;
     }
@@ -28,9 +32,7 @@ const CellInterface* Sheet::GetCell(Position pos) const {
 }
 
 CellInterface* Sheet::GetCell(Position pos) {
-    if (!pos.IsValid()) {
-        throw InvalidPositionException("#POS!");
-    } 
+    CheckValidPos(pos);
     if (!IsCellInRange(pos) || cells_ptr_table_[pos.row][pos.col] == nullptr) {
         return nullptr;
     }
@@ -39,9 +41,7 @@ CellInterface* Sheet::GetCell(Position pos) {
 
 //инициализирует пустую ячейку если ее нет
 const Cell* Sheet::GetConcreteCell(Position pos) const {
-    if (!pos.IsValid()) {
-        throw InvalidPositionException("#POS!");
-    }
+    CheckValidPos(pos);
     if (!IsCellInRange(pos)) {
         ResizeTable({ pos.row + 1, pos.col + 1 });
     }
@@ -53,9 +53,7 @@ const Cell* Sheet::GetConcreteCell(Position pos) const {
 
 //инициализирует пустую ячейку если ее нет
 Cell* Sheet::GetConcreteCell(Position pos) {
-    if (!pos.IsValid()) {
-        throw InvalidPositionException("#POS!");
-    }
+    CheckValidPos(pos);
     if (!IsCellInRange(pos)) {
         ResizeTable({ pos.row + 1, pos.col + 1 });
     }
@@ -66,9 +64,7 @@ Cell* Sheet::GetConcreteCell(Position pos) {
 }
 
 void Sheet::ClearCell(Position pos) {
-    if (!pos.IsValid()) {
-        throw InvalidPositionException("#POS!");
-    } 
+    CheckValidPos(pos);
     if (!IsCellInRange(pos)) {
         return;
     }

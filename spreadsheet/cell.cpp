@@ -16,7 +16,7 @@ Cell::~Cell() {
     Clear();
 }
 
-void Cell::Set(std::string text) {
+void Cell::Set(const std::string& text) {
     if (text.empty()) {
         Clear();
     } else if (text[0] == FORMULA_SIGN) {
@@ -40,7 +40,7 @@ void Cell::Set(std::string text) {
         impl_ = std::make_unique<TextImpl>(impl);
     }
 }
-
+//дак я там и использую эту функцию
 void Cell::Clear() {
     ClearCache();
     impl_ = std::make_unique<EmptyImpl>();
@@ -152,7 +152,7 @@ std::vector<Position> Cell::Impl::GetReferencedCells() const {
     return {};
 }
 
-void Cell::EmptyImpl::Set(std::string text)  {}
+void Cell::EmptyImpl::Set(const std::string& text)  {}
 
 CellInterface::Value Cell::EmptyImpl::GetValue() const  {
     return "";
@@ -162,7 +162,7 @@ std::string Cell::EmptyImpl::GetText() const  {
     return "";
 }
 
-void Cell::TextImpl::Set(std::string text)  {
+void Cell::TextImpl::Set(const std::string& text)  {
     text_ = text;
 }
 
@@ -181,7 +181,7 @@ Cell::FormulaImpl::FormulaImpl(Cell* parent_cell, SheetInterface* sheet)
     :formula_(nullptr), parent_cell_(parent_cell), sheet_(sheet)
 {}
         
-void Cell::FormulaImpl::Set(std::string text)  {
+void Cell::FormulaImpl::Set(const std::string& text)  {
     formula_ = ParseFormula(text);
     cells_ = formula_.get()->GetReferencedCells();
 }
@@ -196,7 +196,7 @@ CellInterface::Value Cell::FormulaImpl::GetValue() const  {
 }
 
 std::string Cell::FormulaImpl::GetText() const  {
-    return "=" + formula_->GetExpression();
+    return FORMULA_SIGN + formula_->GetExpression();
 }
 
 Cell::FormulaImpl::~FormulaImpl() {
