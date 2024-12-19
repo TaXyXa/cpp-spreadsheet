@@ -30,7 +30,7 @@ public:
     bool IsCellInRange(Position pos) const;
 
 private:
-    //void MaybeIncreaseSizeToIncludePosition(Position pos);
+
     void PrintCells(std::ostream& output,
                     const std::function<void(const CellInterface&)>& printCell) const;
     Size GetActualSize() const;

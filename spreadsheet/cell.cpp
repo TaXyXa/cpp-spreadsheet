@@ -40,7 +40,7 @@ void Cell::Set(const std::string& text) {
         impl_ = std::make_unique<TextImpl>(impl);
     }
 }
-//дак я там и использую эту функцию
+
 void Cell::Clear() {
     ClearCache();
     impl_ = std::make_unique<EmptyImpl>();
